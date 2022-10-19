@@ -25,6 +25,7 @@ from views import (
     create_customer,
     delete_customer
 )
+from views.location_requests import update_location
 
 
 # Here's a class. It inherits from another class.
@@ -203,10 +204,22 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
         
-        # Delete a single animal from the list
+        # UPDATE ANIMAL
         if resource == "animals":
             update_animal(id, post_body)
         
+        # UPDATE LOCATION
+        if resource == "locations":
+            update_location(id, post_body)
+            
+        #UPDATE EMPLOYEE
+        if resource == "employees":
+            update_location(id, post_body)
+            
+        #UPDATE CUSTOMER
+        if resource == "customers":
+            update_location(id, post_body)
+            
         # Encode the new animal and send in response
         self.wfile.write("".encode())
     
