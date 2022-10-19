@@ -4,6 +4,7 @@ from views import get_all_animals, get_single_animal, create_animal, delete_anim
 from views import get_all_locations, get_single_location, create_location, delete_location
 from views import get_all_employees, get_single_employee, create_employee
 from views import get_all_customers, get_single_customer, create_customer
+from views.employee_requests import delete_employee
 from views.location_requests import delete_location
 
 # Here's a class. It inherits from another class.
@@ -189,9 +190,13 @@ class HandleRequests(BaseHTTPRequestHandler):
         
         if resource == "locations":
             delete_location(id)
+        
+        if resource == "employees":
+            delete_employee(id)
+            
         # Encode the new animal and send in response
         self.wfile.write("".encode())
-
+        
 
 # This function is not inside the class. It is the starting
 # point of this application.
