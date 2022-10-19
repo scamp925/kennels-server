@@ -3,7 +3,7 @@ import json
 from views import get_all_animals, get_single_animal, create_animal
 from views import get_all_locations, get_single_location, create_location
 from views import get_all_employees, get_single_employee, create_employee
-from views import get_all_customers, get_single_customer
+from views import get_all_customers, get_single_customer, create_customer
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -153,12 +153,20 @@ class HandleRequests(BaseHTTPRequestHandler):
         
         # CREATE EMPLOYEE
         
-        new_employee = None
+        # new_employee = None
         
-        if resource == "employees":
-            new_employee = create_employee(post_body)
+        # if resource == "employees":
+        #     new_employee = create_employee(post_body)
         
-        self.wfile.write(f"{new_employee}".encode())
+        # self.wfile.write(f"{new_employee}".encode())
+        
+        # CREATE CUSTOMER
+        new_customer = None
+        
+        if resource == "customers":
+            new_customer = create_customer(post_body)
+        
+        self.wfile.write(f"{new_customer}".encode())
     # Here's a method on the class that overrides the parent's method.
     # It handles any PUT request.
 
