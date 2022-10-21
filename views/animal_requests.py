@@ -21,12 +21,12 @@ ANIMALS = [
         "customerId": 1
     },
     {
-    "id": 4,
-    "name": "Eleanor",
-    "species": "Dog",
-    "location": 1,
-    "customerId": 2,
-    "status": "Admitted"
+        "id": 4,
+        "name": "Eleanor",
+        "species": "Dog",
+        "location": 1,
+        "customerId": 2,
+        "status": "Admitted"
 }
 ]
 
