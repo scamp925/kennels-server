@@ -101,7 +101,6 @@ class HandleRequests(BaseHTTPRequestHandler):
             
             else:
                 response = f"{get_all_animals()}"
-        self.wfile.write(response.encode())
         
         if resource == "locations":
             if id is not None:
@@ -109,7 +108,6 @@ class HandleRequests(BaseHTTPRequestHandler):
             
             else:
                 response = f"{get_all_locations()}"
-        self.wfile.write(response.encode())
         
         if resource == "employees":
             if id is not None:
@@ -117,7 +115,6 @@ class HandleRequests(BaseHTTPRequestHandler):
             
             else:
                 response = f"{get_all_employees()}"
-        self.wfile.write(response.encode())
         
         if resource == "customers":
             if id is not None:
@@ -131,13 +128,13 @@ class HandleRequests(BaseHTTPRequestHandler):
         # print(self.path)
 
         # It's an if..else statement
-        if self.path == "/animals":
-            response = get_all_animals()
-        else:
-            response = []
+        # if self.path == "/animals":
+        #     response = get_all_animals()
+        # else:
+        #     response = []
 
-        # This weird code sends a response back to the client
-        self.wfile.write(f"{response}".encode())
+        # # This weird code sends a response back to the client
+        # self.wfile.write(f"{response}".encode())
 
     # Here's a method on the class that overrides the parent's method.
     # It handles any POST request.
