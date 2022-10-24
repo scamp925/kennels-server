@@ -41,13 +41,31 @@ def get_all_customers():
     return json.dumps(customers)
   
 def get_single_customer(id):
-    requested_customer = None
-    
-    for customer in CUSTOMERS:
-        if customer["id"] == id:
-            requested_customer = customer
-    
-    return requested_customer
+    with sqlite3.connect("./kennel.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            a.id,
+            a.name,
+            a.address,
+            a.email,
+            a.password
+        FROM customer a
+        WHERE a.id = ?
+        """, ( id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an customer instance from the current row
+        customer = Customer(data['id'], data['name'], data['address'],
+                            data['email'], data['password'])
+
+        return json.dumps(customer.__dict__)
 
 def create_customer(customer):
     max_id = CUSTOMERS[-1]["id"]

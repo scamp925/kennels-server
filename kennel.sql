@@ -71,28 +71,27 @@ WHERE a.id = 3
 SELECT
     a.id,
     a.name,
-		
+		a.address,
+		a.location_id
 FROM employee a
 WHERE a.id = 4
 
--- Get only the animal rows where the `id` field value is 3
+-- Get only the location rows where the `id` field value is 1
 SELECT
     a.id,
     a.name,
     a.breed,
-    a.status,
-    a.location_id,
-    a.customer_id
-FROM animal a
-WHERE a.id = 3
+    a.address
+FROM location a
+WHERE a.id = 1
 
--- Get only the animal rows where the `id` field value is 3
+-- Get only the customer rows where the `id` field value is 3
 SELECT
     a.id,
     a.name,
     a.breed,
-    a.status,
-    a.location_id,
-    a.customer_id
-FROM animal a
+		a.address,
+		a.email,
+		a.password
+FROM customer a
 WHERE a.id = 3

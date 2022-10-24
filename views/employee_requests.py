@@ -45,13 +45,30 @@ def get_all_employees():
     return json.dumps(employees)
 
 def get_single_employee(id):
-    requested_employee = None
-    
-    for employee in EMPLOYEES:
-        if employee["id"] == id:
-            requested_employee = employee
-    
-    return requested_employee
+    with sqlite3.connect("./kennel.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            a.id,
+            a.name,
+            a.address,
+            a.location_id
+        FROM employee a
+        WHERE a.id = ?
+        """, ( id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an employee instance from the current row
+        employee = Employee(data['id'], data['name'], data['address'],
+                            data['location_id'])
+
+        return json.dumps(employee.__dict__)
 
 def create_employee(employee):
     max_id = EMPLOYEES[-1]["id"]
