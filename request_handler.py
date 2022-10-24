@@ -122,6 +122,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             
             else:
                 response = f"{get_all_customers()}"
+            
         self.wfile.write(response.encode())
         
         # Your new console.log() that outputs to the terminal
