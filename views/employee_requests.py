@@ -26,7 +26,9 @@ def get_all_employees():
         db_cursor.execute("""
         SELECT
             a.id,
-            a.name
+            a.name,
+            a.address,
+            a.location_id
         FROM employee a
         """)
         
@@ -35,7 +37,8 @@ def get_all_employees():
         dataset = db_cursor.fetchall()
         
         for row in dataset:
-            employee = Employee(row["id"], row["name"])
+            employee = Employee(row["id"], row["name"], row["address"],
+                                row["location_id"])
         
             employees.append(employee.__dict__)
     

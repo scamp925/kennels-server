@@ -21,7 +21,10 @@ def get_all_customers():
         db_cursor.execute("""
         SELECT
             a.id,
-            a.name
+            a.name,
+            a.address,
+            a.email,
+            a.password
         FROM customer a
         """)
         
@@ -30,7 +33,8 @@ def get_all_customers():
         dataset = db_cursor.fetchall()
         
         for row in dataset:
-            customer = Customer(row["id"], row["name"])
+            customer = Customer(row["id"], row["name"], row["address"],
+                                row["email"], row["password"])
         
             customers.append(customer.__dict__)
     
