@@ -22,6 +22,7 @@ from .employee_requests import (
 from .customer_requests import (
   get_all_customers,
   get_single_customer,
+  get_customer_by_email,
   create_customer,
   update_customer,
   delete_customer
