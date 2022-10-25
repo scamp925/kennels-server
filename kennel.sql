@@ -95,3 +95,17 @@ SELECT
 		a.password
 FROM customer a
 WHERE a.id = 3
+
+-- Embedding location's name and address in the response (Joining animal table and location table)
+SELECT
+    a.id,
+    a.name,
+    a.breed,
+    a.status,
+    a.location_id,
+    a.customer_id,
+    l.name location_name,
+    l.address location_address
+FROM Animal a
+JOIN Location l
+    ON l.id = a.location_id
