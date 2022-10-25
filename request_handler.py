@@ -29,6 +29,7 @@ from views import (
     create_customer,
     delete_customer
 )
+from views.animal_requests import get_animals_by_status
 from views.location_requests import update_location
 
 
@@ -128,6 +129,8 @@ class HandleRequests(BaseHTTPRequestHandler):
                 response = get_animals_by_location(query['location_id'][0])
             elif query.get('location_id') and resource == 'employees':
                 response = get_employees_by_location(query['location_id'][0])
+            elif query.get('status') and resource == 'animals':
+                response = get_animals_by_status(query['status'][0])
 
         self.wfile.write(response.encode())
         
