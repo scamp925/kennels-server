@@ -20,12 +20,12 @@ def get_all_customers():
         
         db_cursor.execute("""
         SELECT
-            a.id,
-            a.name,
-            a.address,
-            a.email,
-            a.password
-        FROM customer a
+            c.id,
+            c.name,
+            c.address,
+            c.email,
+            c.password
+        FROM customer c
         """)
         
         customers = []
@@ -49,13 +49,13 @@ def get_single_customer(id):
         # into the SQL statement.
         db_cursor.execute("""
         SELECT
-            a.id,
-            a.name,
-            a.address,
-            a.email,
-            a.password
-        FROM customer a
-        WHERE a.id = ?
+            c.id,
+            c.name,
+            c.address,
+            c.email,
+            c.password
+        FROM customer c
+        WHERE c.id = ?
         """, ( id, ))
 
         # Load the single result into memory
@@ -75,13 +75,13 @@ def get_customer_by_email(email):
 
         # Write the SQL query to get the information you want
         db_cursor.execute("""
-        select
+        SELECT
             c.id,
             c.name,
             c.address,
             c.email,
             c.password
-        from Customer c
+        FROM customer c
         WHERE c.email = ?
         """, ( email, ))
 

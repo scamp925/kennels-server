@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Employee
+from models import Employee, Location
 from .location_requests import get_single_location
 
 EMPLOYEES = [
@@ -25,11 +25,15 @@ def get_all_employees():
         
         db_cursor.execute("""
         SELECT
-            a.id,
-            a.name,
-            a.address,
-            a.location_id
-        FROM employee a
+            e.id,
+            e.name,
+            e.address,
+            e.location_id,
+            l.name location_name,
+            l.address location_address
+        FROM employee e
+        JOIN Location l
+            ON l.id = e.location_id
         """)
         
         employees = []
@@ -39,7 +43,11 @@ def get_all_employees():
         for row in dataset:
             employee = Employee(row["id"], row["name"], row["address"],
                                 row["location_id"])
-        
+            
+            location = Location(row['id'], row['location_name'], row['location_address'])
+            
+            employee.location = location.__dict__
+            
             employees.append(employee.__dict__)
     
     return json.dumps(employees)
@@ -53,12 +61,12 @@ def get_single_employee(id):
         # into the SQL statement.
         db_cursor.execute("""
         SELECT
-            a.id,
-            a.name,
-            a.address,
-            a.location_id
-        FROM employee a
-        WHERE a.id = ?
+            e.id,
+            e.name,
+            e.address,
+            e.location_id
+        FROM employee e
+        WHERE e.id = ?
         """, ( id, ))
 
         # Load the single result into memory
@@ -79,12 +87,12 @@ def get_employees_by_location(location_id):
         # Write the SQL query to get the information you want
         db_cursor.execute("""
         SELECT
-            a.id,
-            a.name,
-            a.address,
-            a.location_id
-        FROM employee a
-        WHERE a.location_id = ?
+            e.id,
+            e.name,
+            e.address,
+            e.location_id
+        FROM employee e
+        WHERE e.location_id = ?
         """, ( location_id, ))
 
         employees = []
