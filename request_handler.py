@@ -4,6 +4,7 @@ import json
 from views import (
     get_all_animals,
     get_single_animal,
+    get_animals_by_location,
     create_animal,
     update_animal,
     delete_animal
@@ -112,6 +113,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             # see if the query dictionary has an email key
             if query.get('email') and resource == 'customers':
                 response = get_customer_by_email(query['email'][0])
+            elif query.get('location_id') and resource == 'animals':
+                response = get_animals_by_location(query['location_id'][0])
 
         self.wfile.write(response.encode())
         
