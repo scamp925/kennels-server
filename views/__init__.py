@@ -17,6 +17,7 @@ from .employee_requests import (
   delete_employee,
   get_all_employees,
   get_single_employee,
+  get_employees_by_location,
   update_employee,
   create_employee
 )
