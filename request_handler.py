@@ -5,33 +5,28 @@ from views import (
     get_all_animals,
     get_single_animal,
     get_animals_by_location,
+    get_animals_by_status,
     create_animal,
     update_animal,
-    delete_animal
-)
-from views import (
+    delete_animal,
     get_all_locations,
     get_single_location,
     create_location,
-    delete_location
-)
-from views import (
+    update_location,
+    delete_location,
     get_all_employees,
     get_single_employee,
     get_employees_by_location,
     create_employee,
-    delete_employee
-)
-from views import (
+    update_employee,
+    delete_employee,
     get_all_customers,
     get_single_customer,
     get_customer_by_email,
     create_customer,
+    update_customer,
     delete_customer
 )
-from views.animal_requests import get_animals_by_status
-from views.location_requests import update_location
-
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -203,7 +198,6 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_PUT(self):
         """Handles PUT requests to the server
         """
-        self._set_headers(204)
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
@@ -211,22 +205,29 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
         
+        success = False
+        
         # UPDATE ANIMAL
         if resource == "animals":
-            update_animal(id, post_body)
+            success = update_animal(id, post_body)
         
         # UPDATE LOCATION
-        if resource == "locations":
-            update_location(id, post_body)
+        elif resource == "locations":
+            success = update_location(id, post_body)
             
         #UPDATE EMPLOYEE
-        if resource == "employees":
-            update_location(id, post_body)
+        elif resource == "employees":
+            success = update_employee(id, post_body)
             
         #UPDATE CUSTOMER
-        if resource == "customers":
-            update_location(id, post_body)
-            
+        elif resource == "customers":
+            update_customer(id, post_body)
+        
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+
         # Encode the new animal and send in response
         self.wfile.write("".encode())
     
