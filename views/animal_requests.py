@@ -57,9 +57,9 @@ def get_all_animals():
             c.name customer_name,
             c.address customer_address
         FROM Animal a
-        JOIN Location l
+        LEFT JOIN Location l
             ON l.id = a.location_id
-        JOIN Customer c
+        LEFT JOIN Customer c
             ON c.id = a.customer_id
         """)
 
@@ -182,21 +182,31 @@ def get_animals_by_status(status):
 
     return json.dumps(animals)
 
-def create_animal(animal):
-    # Get the id value of the last animal in the list ([-1])
-    max_id = ANIMALS[-1]["id"]
-    
-    # Add 1 to whatever that number is
-    new_id = max_id + 1
-    
-    # Add an `id` property to the animal dictionary
-    animal["id"] = new_id
-    
-    # Add the animal dictionary to the list
-    ANIMALS.append(animal)
-    
-    # Return the dictionary with `id` property added
-    return animal
+def create_animal(new_animal):
+    with sqlite3.connect("./kennel.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO Animal
+            ( name, breed, status, location_id, customer_id )
+        VALUES
+            ( ?, ?, ?, ?, ?);
+        """, (new_animal['name'], new_animal['breed'],
+              new_animal['status'], new_animal['locationId'],
+              new_animal['customerId'], ))
+
+        # The `lastrowid` property on the cursor will return
+        # the primary key of the last thing that got added to
+        # the database.
+        id = db_cursor.lastrowid
+
+        # Add the `id` property to the animal dictionary that
+        # was sent by the client so that the client sees the
+        # primary key in the response.
+        new_animal['id'] = id
+
+
+    return json.dumps(new_animal)
 
 def update_animal(id, new_animal):
     with sqlite3.connect("./kennels.sqlite3") as conn:
